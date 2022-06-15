@@ -32,6 +32,8 @@ public class UserService {
 
     public User getUserByEmail(String email){return userRepository.getUserByEmail(email);}
 
+    public User getUserByPhone(String phone) {return userRepository.getUserByPhone(phone);}
+
 
     public void deleteStudent(Integer id) {
         userRepository.deleteById(id);

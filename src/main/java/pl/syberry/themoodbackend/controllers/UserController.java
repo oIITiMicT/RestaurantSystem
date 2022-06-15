@@ -151,6 +151,9 @@ public class UserController {
             if (userService.getUserByEmail(email) != null) {
                 return new ResponseEntity<>("User with this email already exist", HttpStatus.CONFLICT);
             }
+            if (userService.getUserByPhone(email) != null) {
+                return new ResponseEntity<>("User with this email already exist", HttpStatus.CONFLICT);
+            }
             User user = new User(username, name, surname, email, phone, password);
             Functions functions = new Functions();
             SessionFactory factory = functions.createSession();
@@ -158,7 +161,7 @@ public class UserController {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

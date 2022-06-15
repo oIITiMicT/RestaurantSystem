@@ -6,4 +6,6 @@ import pl.syberry.themoodbackend.model.User;
 public interface UserRepository extends JpaRepository<User, Integer>{
     User getUserByNickname(String nickname);
     User getUserByEmail(String email);
+
+    User getUserByPhone(String phone);
 }

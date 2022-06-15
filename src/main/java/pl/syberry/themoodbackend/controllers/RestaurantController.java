@@ -43,6 +43,10 @@ public class RestaurantController {
     @ResponseBody
     public ResponseEntity<String> registerRestaurant(@RequestParam String admin_name, @RequestParam String restaurant_name) {
         try {
+            if (adminService.getAdminByNickName(admin_name) == null) {
+                return new ResponseEntity<>("you don't have permissions", HttpStatus.METHOD_NOT_ALLOWED);
+            }
+
             if (restaurantService.getRestaurantByName(restaurant_name) != null) {
                 return new ResponseEntity<>("a restaurant with the same name already exists", HttpStatus.CONFLICT);
             }
@@ -65,6 +69,9 @@ public class RestaurantController {
         try {
             if (adminService.getAdminByNickName(admin_username) == null) {
                 return new ResponseEntity<>("You don't have access!", HttpStatus.METHOD_NOT_ALLOWED);
+            }
+            if (restaurantService.getRestaurantByName(restaurant_name) == null) {
+                return new ResponseEntity<>("a restaurant with the this name not exist in system", HttpStatus.NOT_FOUND);
             }
             List<Book> books = bookService.getBooksByRestaurantId(restaurantService.getRestaurantByName(restaurant_name).getId());
             return new ResponseEntity<>(books, HttpStatus.OK);
